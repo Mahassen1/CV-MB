@@ -4,6 +4,7 @@ import { Parser } from 'html-to-react'
 import React from 'react'
 import Layout from '../components/Layout'
 
+
 const container = css`
   margin: 0 auto;
   padding: 4rem 2rem 8rem 2rem;
@@ -42,13 +43,13 @@ const container = css`
   }
 
   .section ul {
-    margin-top: 0.5rem;
-    margin-left: 2.5rem;
+    margin-top: 2rem;
+    margin-left: 3rem;
     list-style: disc;
   }
 
   .section li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 2rem;
   }
 
   .grey {
@@ -92,24 +93,14 @@ export default props => {
     const title = section.primary.title.text
     const items = section.items.map(item => htmlToReactParser.parse(item.content.html))
 
-    if (section.slice_type === 'section') {
+    
       return (
-        <div className="section">
-          <h2>{title}</h2>
-          <div>{items}</div>
+        <div>
+        <h2>{title}</h2>
+        <div>{items}</div>
         </div>
       )
-    }
-    if (section.slice_type === 'skills') {
-      return (
-        <div className="skills">
-          <h2>{title}</h2>
-          <div>{items}</div>
-        </div>
-      )
-    }
-  })
-
+      }) 
   return (
     <Layout>
       <div css={container}>
@@ -122,44 +113,28 @@ export default props => {
 }
 
 export const pageQuery = graphql`
-  query {
-    prismicHomepage {
-      data {
-        name {
-          text
-        }
-        description {
-          html
-        }
-        body {
-          ... on PrismicHomepageBodySection {
-            slice_type
-            primary {
-              title {
-                text
-              }
-            }
-            items {
-              content {
-                html
-              }
-            }
+{
+  prismicHomepage {
+    data {
+      name {
+        text
+      }
+      description {
+        html
+      }
+      body {
+        primary {
+          title {
+            text
           }
-          ... on PrismicHomepageBodySkills {
-            slice_type
-            primary {
-              title {
-                text
-              }
-            }
-            items {
-              content {
-                html
-              }
+        }
+          items {
+            content {
+              html
             }
           }
         }
       }
     }
-  }
+  }  
 `
